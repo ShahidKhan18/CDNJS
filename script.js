@@ -1,12 +1,15 @@
-const currentScript = document.currentScript;
-const url = new URL(currentScript.src);
-const param = url.searchParams.get("param");
+(() => {
+    if (window.__cdnjs_script_v1__) return; // guard
+    window.__cdnjs_script_v1__ = true;
 
-if (param) {
-    console.log("Param from script URL:", param);
-    // you can call a function here
-}
+    const current = document.currentScript || document.querySelector('script[src*="CDNJS"]');
+    const url = new URL(current.src);
+    const param = url.searchParams.get("param");
 
-const greetFn=(name)=>console.log(`Hello ${name} !`)
-greetFn(param)
-let dummy="dummy"
+    const greetFn = (name) => console.log(`Hello ${name} !`);
+
+    if (param) {
+        console.log("Param from script URL:", param);
+        greetFn(param);
+    }
+})();
